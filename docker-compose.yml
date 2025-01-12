@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  vue-frontend:
+    build:
+      context: ../tetrisJAVA  # Path to your Vue.js project directory
+      dockerfile: Dockerfile # Dockerfile in the ./frontend folder
+    ports:
+      - "8081:80" # Maps port 80 inside the container to port 8081 on the host machine
+    volumes:
+      - ./frontend:/app # Optional: Binds local Vue.js code for easier development (if needed)
+    environment:
+      NODE_ENV: production # Ensures the app runs in production mode
