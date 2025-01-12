@@ -33,6 +33,7 @@ export default {
       ],
     score: 0,
     level: 1,
+    levelThreshold: 10, // Lines needed to level up
     linesCleared: 0,
     highScores: JSON.parse(localStorage.getItem('tetrisHighScores')) || [],
     dropInterval: 1000, // Base speed
@@ -147,7 +148,27 @@ spawnPiece() {
 
       // Start fresh game
       this.initGame();
-    },
+    },  updateLevel() {
+          const oldLevel = this.level;
+          this.level = Math.floor(this.linesCleared / this.levelThreshold) + 1;
+
+          if (this.level > oldLevel) {
+            this.levelUp();
+          }
+        },
+      levelUp() {
+        // Increase game speed
+        this.dropInterval = Math.max(100, 1000 - (this.level - 1) * 100);
+
+        // Visual feedback
+        gsap.to(this.$refs.gameBoard, {
+          scale: 1.1,
+          duration: 0.2,
+          yoyo: true,
+          repeat: 1,
+          ease: "power2.out"
+        });
+      },
     setupControls() {
       window.addEventListener('keydown', (e) => {
         switch(e.key) {
