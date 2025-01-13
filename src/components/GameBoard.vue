@@ -505,9 +505,8 @@ canvas {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background: rgba(0, 0, 0, 0.8);
-    bottom: 0;
-    position: absolute;
+    bottom: 60px;
+    position: fixed;
   }
 
   .control-btn {

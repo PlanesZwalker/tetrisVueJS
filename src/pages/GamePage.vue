@@ -92,9 +92,7 @@ export default {
   }
 
   .neon-title {
-    font-size: 1.8rem;
-
-    margin-bottom: 1rem;
+    font-size: 1.6rem;
   }
 }
 </style>
