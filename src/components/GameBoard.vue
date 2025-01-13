@@ -1,12 +1,25 @@
 <template>
   <div class="game-container">
-    <ScoreDisplay :score="score" :level="level" :nextPiece="nextPiece" ref="scoreDisplay" />
-    <div class="game-board" ref="gameBoard">
-      <canvas ref="gameCanvas" width="300" height="600"></canvas>
-      <div v-if="gameOver" class="game-over">
-        <h2>Game Over</h2>
-        <p>Final Score: {{ score }}</p>
-        <button @click="restartGame">Play Again</button>
+    <div class="game-content">
+      <ScoreDisplay :score="score" :level="level" :nextPiece="nextPiece" ref="scoreDisplay" />
+      <div class="game-board" ref="gameBoard">
+        <canvas ref="gameCanvas" width="300" height="600"></canvas>
+        <div v-if="gameOver" class="game-over">
+          <h2>Game Over</h2>
+          <p>Final Score: {{ score }}</p>
+          <button @click="restartGame">Play Again</button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-controls">
+      <div class="controls-left">
+        <button class="control-btn" @touchstart.prevent="movePiece(-1)">←</button>
+        <button class="control-btn" @touchstart.prevent="rotatePiece">↻</button>
+        <button class="control-btn" @touchstart.prevent="movePiece(1)">→</button>
+      </div>
+      <div class="controls-right">
+        <button class="control-btn" @touchstart.prevent="dropPiece">↓</button>
+        <button class="control-btn hard-drop" @touchstart.prevent="hardDrop">⤓</button>
       </div>
     </div>
   </div>
@@ -376,53 +389,132 @@ clearLines() {
 
 <style scoped>
 .game-container {
-  position: relative;
+  width: 100%;
+  height: 100dvh;
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 40px;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-content {
+  flex: 1;
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+  height: calc(100% - 120px);
 }
 
 .game-board {
+  height: 80%;
+  aspect-ratio: 1/2;
   position: relative;
   border: 2px solid #0ff;
+  border-radius: 8px;
   background: rgba(0, 0, 0, 0.8);
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
 }
 
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mobile-controls {
+  display: none;
+}
+
+.controls-left {
+  display: flex;
+  gap: 1rem;
+}
+
+.controls-right {
+  display: flex;
+  gap: 1rem;
+}
+
+.control-btn {
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 255, 255, 0.15);
+  color: #0ff;
+  font-size: 1.5rem;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s;
+  border: 2px solid #0ff;
+}
+
+.control-btn:active {
+  transform: scale(0.9);
+  background: rgba(0, 255, 255, 0.3);
+}
+
+.hard-drop {
+  background: rgba(255, 0, 255, 0.15);
+  border-color: #f0f;
+  color: #f0f;
+}
+
 .game-over {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.9);
-  padding: 2rem;
-  border: 2px solid #0ff;
-  border-radius: 8px;
-  text-align: center;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.95);
   color: #0ff;
+  border-radius: 8px;
 }
 
 .game-over button {
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
   background: #0ff;
   color: black;
   border: none;
-  padding: 10px 20px;
-  margin-top: 1rem;
   border-radius: 4px;
-  cursor: pointer;
   font-weight: bold;
-  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s;
 }
 
 .game-over button:hover {
-  background: #fff;
   transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-  width: fit-content;
-  display: block;
+}
+
+@media (max-width: 768px) {
+  .game-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    height: calc(100% - 160px);
+  }
+
+  .game-board {
+    height: 55vh;
+    width: min(100%, 320px);
+  }
+
+  .mobile-controls {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(0, 0, 0, 0.8);
+    bottom: 0;
+    position: absolute;
+  }
+
+  .control-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
 }
 </style>
+

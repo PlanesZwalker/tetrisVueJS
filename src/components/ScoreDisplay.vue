@@ -71,29 +71,45 @@ watch: {
   }
 }
 </script>
-
 <style scoped>
 .score-display {
-  display: flex;
-  flex-direction: column;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #0ff;
+  border-radius: 8px;
+  padding: 0.9rem;
+  color: #0ff;
+  height: 100%;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 320px;
+  flex-direction: row;
+  display:block;
+  height:max-content;
+  max-height: 28vh;
   gap: 20px;
+
+}
+
+.score-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
 }
 
 .next-piece {
-  background: rgba(0, 0, 0, 0.8);
-  padding: 5px;
-  border: 2px solid #0ff;
-  border-radius: 8px;
   text-align: center;
-}
-
-.next-piece h3 {
-  color: #0ff;
-  margin-bottom: 10px;
+  padding: 0.5rem;
+  flex: 0 0 auto;
 }
 
 canvas {
-  display: block;
   margin: 0 auto;
+  border-radius: 4px;
+  width: min(20vw, 160px);
+  height: auto;
 }
+
+
 </style>
